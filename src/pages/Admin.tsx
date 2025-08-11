@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { 
   Package, 
   Users, 
@@ -9,9 +8,6 @@ import {
   Edit, 
   Trash2, 
   Search,
-  ChevronLeft,
-  ChevronRight,
-  Filter,
   CheckCircle,
   XCircle,
   Clock,
@@ -47,15 +43,10 @@ const DEFAULT_SETTINGS: SiteSettings = {
 export default function Admin() {
   const [activeTab, setActiveTab] = useState<Tab>('products');
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Product | null>(null);
+  const [, setIsEditModalOpen] = useState(false);
+  const [, setSelectedItem] = useState<Product | null>(null);
   const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
-  const { products, loading: productsLoading, fetchProducts } = useProducts();
-  const { orders, loading: ordersLoading, updateOrderStatus } = useOrders();
-  const { users, loading: usersLoading } = useUsers();
-  const navigate = useNavigate();
 
   // État pour le nouveau produit
   const [newProduct, setNewProduct] = useState({

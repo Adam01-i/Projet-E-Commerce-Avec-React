@@ -9,7 +9,6 @@ import Register from './pages/Register';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 import { AnimatePresence, motion } from 'framer-motion';
-import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 
 function AppContent() {
   const location = useLocation();
@@ -30,14 +29,7 @@ function AppContent() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedAdminRoute>
-                  <Admin />
-                </ProtectedAdminRoute>
-              }
-            />
+
           </Routes>
         </motion.main>
       </AnimatePresence>
