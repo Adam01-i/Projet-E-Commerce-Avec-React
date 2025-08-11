@@ -34,7 +34,7 @@ export default function Navbar() {
               <Link to="/" className="flex items-center space-x-3">
                 <Home className="h-8 w-8 text-indigo-600" />
                 <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
-                  E-Shop
+                  K-Shop
                 </span>
               </Link>
 

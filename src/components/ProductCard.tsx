@@ -2,6 +2,7 @@ import React from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
+import { formatXOF } from '../lib/currency';
 
 interface ProductCardProps {
   product: Product;
@@ -31,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-indigo-600">{product.price.toFixed(2)}€</span>
+          <span className="text-xl font-bold text-indigo-600">{formatXOF(product.price)}</span>
           <button
             onClick={() => addToCart(product)}
             disabled={product.stock <= 0}
