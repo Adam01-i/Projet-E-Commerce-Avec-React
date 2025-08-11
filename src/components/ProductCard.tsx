@@ -38,7 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             disabled={product.stock <= 0}
             className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors ${
               product.stock > 0
-                ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                ? 'bg-indigo-500 text-white hover:bg-indigo-700'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >

@@ -9,6 +9,7 @@ interface WavePaymentModalProps {
   orderId: string;
   onSuccess: () => void;
   onError: (error: Error) => void;
+  phoneNumber: string;
 }
 
 export default function WavePaymentModal({
@@ -18,8 +19,9 @@ export default function WavePaymentModal({
   orderId,
   onSuccess,
   onError,
+  phoneNumber,
 }: WavePaymentModalProps) {
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
