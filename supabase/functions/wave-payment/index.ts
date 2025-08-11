@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.203.0/http/server.ts";
 
 const WAVE_API_URL = "https://api.wave.com/v1/checkout";
 const WAVE_SECRET_KEY = Deno.env.get("WAVE_SECRET_KEY");
