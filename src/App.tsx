@@ -29,7 +29,7 @@ function AppContent() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/admin" element={<Admin />} />
+
           </Routes>
         </motion.main>
       </AnimatePresence>

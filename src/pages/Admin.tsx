@@ -18,15 +18,16 @@ import { useOrders } from '../hooks/useOrders';
 import { useUsers } from '../hooks/useUsers';
 import { supabase } from '../lib/supabase';
 import { Product, Order, User, SiteSettings } from '../types';
+import { formatXOF } from '../lib/currency';
 
 type Tab = 'products' | 'orders' | 'users' | 'settings';
 
 const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: 'E-Shop',
-  description: 'Votre boutique en ligne',
-  contactEmail: 'contact@eshop.com',
-  phoneNumber: '01 23 45 67 89',
-  address: '123 Rue du Commerce, 75001 Paris',
+  siteName: 'K-Shop',
+  description: 'Koundoulshop - Boutique en ligne sénégalaise',
+  contactEmail: 'contact@kshop.sn',
+  phoneNumber: '77 000 00 00',
+  address: 'Dakar, Sénégal',
   socialLinks: {
     facebook: 'https://facebook.com/kshop',
     twitter: 'https://twitter.com/kshop',
@@ -46,9 +47,6 @@ export default function Admin() {
   const [, setIsEditModalOpen] = useState(false);
   const [, setSelectedItem] = useState<Product | null>(null);
   const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
-  const { products } = useProducts();
-  const { orders, updateOrderStatus } = useOrders();
-  const { users } = useUsers();
 
   // État pour le nouveau produit
   const [newProduct, setNewProduct] = useState({
@@ -70,7 +68,7 @@ export default function Admin() {
 
       if (error) throw error;
       setIsAddModalOpen(false);
-      window.location.reload();
+      await fetchProducts();
     } catch (error) {
       console.error('Error adding product:', error);
       alert('Erreur lors de l\'ajout du produit');
@@ -87,10 +85,30 @@ export default function Admin() {
         .eq('id', id);
 
       if (error) throw error;
-      window.location.reload();
+      await fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
       alert('Erreur lors de la suppression du produit');
+    }
+  };
+
+  const handleEditProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedItem) return;
+    try {
+      const { id, name, description, price, stock, category, image_url } = selectedItem;
+      const { error } = await supabase
+        .from('products')
+        .update({ name, description, price, stock, category, image_url })
+        .eq('id', id);
+
+      if (error) throw error;
+      setIsEditModalOpen(false);
+      setSelectedItem(null);
+      await fetchProducts();
+    } catch (error) {
+      console.error('Error updating product:', error);
+      alert('Erreur lors de la mise à jour du produit');
     }
   };
 
@@ -715,6 +733,97 @@ export default function Admin() {
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
                 >
                   Ajouter
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal d'édition de produit */}
+      {isEditModalOpen && selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 className="text-xl font-bold mb-4">Modifier le produit</h2>
+            <form onSubmit={handleEditProduct}>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Nom du produit</label>
+                  <input
+                    type="text"
+                    value={selectedItem.name}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Description</label>
+                  <textarea
+                    value={selectedItem.description}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    rows={3}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Prix</label>
+                  <input
+                    type="number"
+                    value={selectedItem.price}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, price: parseFloat(e.target.value) || 0 })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Stock</label>
+                  <input
+                    type="number"
+                    value={selectedItem.stock}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, stock: parseInt(e.target.value) || 0 })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    min="0"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Catégorie</label>
+                  <input
+                    type="text"
+                    value={selectedItem.category || ''}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, category: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">URL de l'image</label>
+                  <input
+                    type="url"
+                    value={selectedItem.image_url || ''}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, image_url: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => { setIsEditModalOpen(false); setSelectedItem(null); }}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
+                >
+                  Enregistrer
                 </button>
               </div>
             </form>
