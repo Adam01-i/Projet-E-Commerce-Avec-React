@@ -71,7 +71,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Banner />
+<<<<<<< HEAD
       <div className="max-w-7xl mx-auto px-4" id="products">
+=======
+      <div className="max-w-7xl mx-auto px-4 py-8" id="products">
+>>>>>>> origin/cursor/adapt-website-for-koundoulshop-with-cfa-currency-and-banner-d110
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside className="hidden md:block">
