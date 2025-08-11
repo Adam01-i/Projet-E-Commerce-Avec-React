@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sliders, Search } from 'lucide-react';
+import { Sliders } from 'lucide-react';
 import { Product } from '../types';
 import { formatXOF } from '../lib/currency';
 
@@ -16,7 +16,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({
-  searchTerm,
   setSearchTerm,
   priceRange,
   setPriceRange,
@@ -54,19 +53,7 @@ export default function Sidebar({
 
       <div className="space-y-6">
         {/* Barre de recherche */}
-        <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-3">Recherche</h3>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Rechercher un produit..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          </div>
-        </div>
+        
 
         {/* Filtre par catégorie */}
         {categories.length > 0 && (

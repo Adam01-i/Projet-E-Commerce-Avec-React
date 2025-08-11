@@ -38,6 +38,28 @@ export default function Navbar() {
                 </span>
               </Link>
 
+  {/* Search bar */}
+          <div className="px-4 py-4 hidden md:block">
+            <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-3xl mx-auto">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Rechercher un produit..."
+                  className="w-full h-12 pl-12 pr-4 rounded-full border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-shadow"
+                />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              </div>
+              <button
+                type="submit"
+                className="h-12 px-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:from-indigo-700 hover:to-purple-700 transition-colors"
+              >
+                Rechercher
+              </button>
+            </form>
+          </div>
+          
               <div className="flex items-center space-x-6">
                 <Link to="/cart" className="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
                   <ShoppingCart className="h-6 w-6 text-gray-600" />
@@ -81,27 +103,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Search bar */}
-          <div className="px-4 py-4 hidden md:block">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-2xl mx-auto">
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Rechercher un produit..."
-                  className="w-full h-12 pl-12 pr-4 rounded-full border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-shadow"
-                />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-              </div>
-              <button
-                type="submit"
-                className="h-12 px-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:from-indigo-700 hover:to-purple-700 transition-colors"
-              >
-                Rechercher
-              </button>
-            </form>
-          </div>
+        
 
           {/* Mobile menu */}
           <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>

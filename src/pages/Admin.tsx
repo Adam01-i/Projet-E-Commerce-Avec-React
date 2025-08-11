@@ -17,7 +17,12 @@ import { useProducts } from '../hooks/useProducts';
 import { useOrders } from '../hooks/useOrders';
 import { useUsers } from '../hooks/useUsers';
 import { supabase } from '../lib/supabase';
-import { Product, Order, User, SiteSettings } from '../types';
+import { Product, Order, SiteSettings } from '../types';
+
+// Fonction utilitaire pour formater le prix en XOF
+function formatXOF(amount: number): string {
+  return amount.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' });
+}
 
 type Tab = 'products' | 'orders' | 'users' | 'settings';
 
@@ -34,8 +39,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   },
   paymentMethods: {
     wave: true,
-    orange: true,
-    card: true
+    orangeMoney: true,
+    creditCard: true
   }
 };
 
@@ -572,10 +577,10 @@ export default function Admin() {
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={settings.paymentMethods.orange}
+                        checked={settings.paymentMethods.orangeMoney}
                         onChange={(e) => setSettings({
                           ...settings,
-                          paymentMethods: { ...settings.paymentMethods, orange: e.target.checked }
+                          paymentMethods: { ...settings.paymentMethods, orangeMoney: e.target.checked }
                         })}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
@@ -586,10 +591,10 @@ export default function Admin() {
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={settings.paymentMethods.card}
+                        checked={settings.paymentMethods.creditCard}
                         onChange={(e) => setSettings({
                           ...settings,
-                          paymentMethods: { ...settings.paymentMethods, card: e.target.checked }
+                          paymentMethods: { ...settings.paymentMethods, creditCard: e.target.checked }
                         })}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
