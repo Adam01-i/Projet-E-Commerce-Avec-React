@@ -18,16 +18,20 @@ import { useOrders } from '../hooks/useOrders';
 import { useUsers } from '../hooks/useUsers';
 import { supabase } from '../lib/supabase';
 import { Product, Order, SiteSettings } from '../types';
-import { formatXOF } from '../lib/currency';
+
+// Fonction utilitaire pour formater le prix en XOF
+function formatXOF(amount: number): string {
+  return amount.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' });
+}
 
 type Tab = 'products' | 'orders' | 'users' | 'settings';
 
 const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: 'K-Shop',
-  description: 'Koundoulshop - Boutique en ligne sénégalaise',
-  contactEmail: 'contact@kshop.sn',
-  phoneNumber: '77 000 00 00',
-  address: 'Dakar, Sénégal',
+  siteName: 'E-Shop',
+  description: 'Votre boutique en ligne',
+  contactEmail: 'contact@eshop.com',
+  phoneNumber: '01 23 45 67 89',
+  address: '123 Rue du Commerce, 75001 Paris',
   socialLinks: {
     facebook: 'https://facebook.com/kshop',
     twitter: 'https://twitter.com/kshop',
