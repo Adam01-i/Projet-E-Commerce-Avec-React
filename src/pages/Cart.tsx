@@ -6,6 +6,7 @@ import { stripePromise } from '../lib/stripe';
 import WavePaymentModal from '../components/WavePaymentModal';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { formatXOF } from '../lib/currency';
 
 export default function Cart() {
   const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
@@ -160,7 +161,7 @@ export default function Cart() {
                       {item.product.name}
                     </h3>
                     <p className="text-lg font-medium text-gray-900">
-                      {(item.product.price * item.quantity).toFixed(2)}€
+                      {formatXOF(item.product.price * item.quantity)}
                     </p>
                   </div>
 
@@ -215,7 +216,7 @@ export default function Cart() {
               <dl className="-my-4 text-sm divide-y divide-gray-200">
                 <div className="py-4 flex items-center justify-between">
                   <dt className="text-gray-600">Sous-total</dt>
-                  <dd className="font-medium text-gray-900">{total.toFixed(2)}€</dd>
+                  <dd className="font-medium text-gray-900">{formatXOF(total)}</dd>
                 </div>
                 <div className="py-4 flex items-center justify-between">
                   <dt className="text-gray-600">Livraison</dt>
@@ -223,7 +224,7 @@ export default function Cart() {
                 </div>
                 <div className="py-4 flex items-center justify-between">
                   <dt className="text-base font-medium text-gray-900">Total</dt>
-                  <dd className="text-base font-medium text-gray-900">{total.toFixed(2)}€</dd>
+                  <dd className="text-base font-medium text-gray-900">{formatXOF(total)}</dd>
                 </div>
               </dl>
             </div>
@@ -261,26 +262,19 @@ export default function Cart() {
                     className="h-6"
                   />
                 </button>
-
-                <button
-                  onClick={() => setPaymentMethod('card')}
-                  className={`flex items-center justify-center px-4 py-3 border rounded-lg col-span-2 ${
-                    paymentMethod === 'card'
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-600'
-                      : 'border-gray-200 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <CreditCard className="h-5 w-5 mr-2" />
-                  <span>Carte bancaire</span>
-                </button>
               </div>
 
               <button
                 onClick={handleCheckout}
-                disabled={isProcessing}
-                className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+                disabled={isProcessing || !paymentMethod}
+                className={`w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white ${
+                  isProcessing || !paymentMethod
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-indigo-600 hover:bg-indigo-700'
+                }`}
               >
-                {isProcessing ? 'Traitement en cours...' : 'Procéder au paiement'}
+                <CreditCard className="mr-2 h-5 w-5" />
+                {isProcessing ? 'Traitement...' : 'Procéder au paiement'}
               </button>
             </div>
           </div>
@@ -290,10 +284,10 @@ export default function Cart() {
       <WavePaymentModal
         isOpen={isWaveModalOpen}
         onClose={() => setIsWaveModalOpen(false)}
-        amount={total}
-        orderId="temp-order-id"
         onSuccess={handleWaveSuccess}
         onError={handleWaveError}
+        amount={total}
+        phoneNumber={user?.phone || ''}
       />
     </div>
   );

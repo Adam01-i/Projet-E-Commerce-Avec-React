@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import { useProducts } from '../hooks/useProducts';
 import { ShoppingBag } from 'lucide-react';
+import Banner from '../components/Banner';
 
 export default function Home() {
   const { products, loading, error } = useProducts();
@@ -69,7 +70,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <Banner />
+      <div className="max-w-7xl mx-auto px-4 py-8" id="products">
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside className="hidden md:block">

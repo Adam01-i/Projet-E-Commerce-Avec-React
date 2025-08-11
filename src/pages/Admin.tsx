@@ -22,24 +22,25 @@ import { useOrders } from '../hooks/useOrders';
 import { useUsers } from '../hooks/useUsers';
 import { supabase } from '../lib/supabase';
 import { Product, Order, User, SiteSettings } from '../types';
+import { formatXOF } from '../lib/currency';
 
 type Tab = 'products' | 'orders' | 'users' | 'settings';
 
 const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: 'E-Shop',
-  description: 'Votre boutique en ligne',
-  contactEmail: 'contact@eshop.com',
-  phoneNumber: '01 23 45 67 89',
-  address: '123 Rue du Commerce, 75001 Paris',
+  siteName: 'K-Shop',
+  description: 'Koundoulshop - Boutique en ligne sénégalaise',
+  contactEmail: 'contact@kshop.sn',
+  phoneNumber: '77 000 00 00',
+  address: 'Dakar, Sénégal',
   socialLinks: {
-    facebook: 'https://facebook.com/eshop',
-    twitter: 'https://twitter.com/eshop',
-    instagram: 'https://instagram.com/eshop'
+    facebook: 'https://facebook.com/kshop',
+    twitter: 'https://twitter.com/kshop',
+    instagram: 'https://instagram.com/kshop'
   },
   paymentMethods: {
     wave: true,
-    orangeMoney: true,
-    creditCard: true
+    orange: true,
+    card: true
   }
 };
 
@@ -288,7 +289,7 @@ export default function Admin() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {product.price.toFixed(2)}€
+                          {formatXOF(product.price)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {product.stock}
@@ -358,7 +359,7 @@ export default function Admin() {
                           <div className="text-sm text-gray-900">{order.user_id}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {order.total_amount.toFixed(2)}€
+                          {formatXOF(order.total_amount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -578,10 +579,10 @@ export default function Admin() {
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={settings.paymentMethods.orangeMoney}
+                        checked={settings.paymentMethods.orange}
                         onChange={(e) => setSettings({
                           ...settings,
-                          paymentMethods: { ...settings.paymentMethods, orangeMoney: e.target.checked }
+                          paymentMethods: { ...settings.paymentMethods, orange: e.target.checked }
                         })}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
@@ -592,13 +593,12 @@ export default function Admin() {
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={settings.paymentMethods.creditCard}
+                        checked={settings.paymentMethods.card}
                         onChange={(e) => setSettings({
                           ...settings,
-                          paymentMethods: { ...settings.paymentMethods, creditCard: e.target.checked }
+                          paymentMethods: { ...settings.paymentMethods, card: e.target.checked }
                         })}
-                        className="h-4 w-4 text-indigo-600 focus:ring-in
-digo-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
                       <label className="ml-2 block text-sm text-gray-900">
                         Carte bancaire

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sliders, Search } from 'lucide-react';
 import { Product } from '../types';
+import { formatXOF } from '../lib/currency';
 
 interface SidebarProps {
   searchTerm: string;
@@ -100,7 +101,7 @@ export default function Sidebar({
                 placeholder="Min"
                 value={priceRange[0]}
                 onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                className="w-24 px-2 py-1 border border-gray-300 rounded text-sm"
                 min="0"
               />
               <span className="text-gray-500">-</span>
@@ -109,10 +110,10 @@ export default function Sidebar({
                 placeholder="Max"
                 value={priceRange[1]}
                 onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || maxPrice])}
-                className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                className="w-24 px-2 py-1 border border-gray-300 rounded text-sm"
                 min="0"
               />
-              <span className="text-sm text-gray-500">€</span>
+              <span className="text-sm text-gray-500">F CFA</span>
             </div>
             <input
               type="range"
@@ -123,8 +124,8 @@ export default function Sidebar({
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-sm text-gray-600">
-              <span>{priceRange[0]}€</span>
-              <span>{priceRange[1]}€</span>
+              <span>{formatXOF(priceRange[0])}</span>
+              <span>{formatXOF(priceRange[1])}</span>
             </div>
           </div>
         </div>
