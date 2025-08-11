@@ -1,50 +1,82 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const images = [
+  "/img2.png",
+  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1920&q=80",
+  "img4.jpg",
+];
 
 export default function Banner() {
-  return (
-    <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-<<<<<<< HEAD
-      <div className="max-w-7xl mx-auto h-full-screen px-4 py-12">
-<div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-  <div className="max-w-7xl mx-auto px-4 py-12">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            </h1>
-            <p className="mt-3 text-indigo-100">
-              Koundoulshop, votre boutique en ligne au Sénégal. Livraison rapide, paiement sécurisé (Wave, Orange Money).
-            </p>
-            <div className="mt-6">
-              <Link
-                to="#products"
-                className="inline-block px-6 py-3 bg-white text-indigo-700 font-semibold rounded-md shadow hover:bg-indigo-50"
-              >
-                Découvrir les produits
-              </Link>
-            </div>
-          </motion.div>
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-          <motion.div
-            className="hidden md:block"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div
+      className="relative w-full h-screen flex items-center justify-center text-white pt-16 overflow-hidden"
+      style={{
+        backgroundImage: `url('${images[currentIndex]}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        transition: "background-image 1s ease-in-out",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      <div className="relative z-10 text-center px-6 md:px-12 max-w-4xl">
+        <motion.h1
+          className="text-4xl md:text-6xl font-bold leading-tight drop-shadow-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Bienvenue sur{" "}
+          <span className="text-indigo-400">KoundoulShop</span>
+        </motion.h1>
+
+        <motion.p
+          className="mt-4 text-indigo-200 text-lg max-w-2xl mx-auto drop-shadow-md"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          KoundoulShop, votre boutique en ligne au Sénégal. Livraison rapide,
+          paiement sécurisé (Wave, Orange Money).
+        </motion.p>
+
+        <motion.div
+          className="mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <Link
+            to="#products"
+            className="inline-block px-8 py-4 bg-indigo-500 text-white font-semibold rounded-md shadow-lg hover:bg-indigo-600 transition"
           >
-<<<<<<< HEAD
-            <div className="relative h-max md:h-48 rounded-xl overflow-hidden">
-              <img
-                src="/image.webp"
-=======
-            <div className="relative h-40 md:h-48 rounded-xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1515165562835-c3b8c6ae5f88?q=80&w=1200&auto=format&fit=crop"
->>>>>>> origin/cursor/adapt-website-for-koundoulshop-with-cfa-currency-and-banner-d110
-                alt="K-Shop Banner"
-                className="absolute inset-0 w-full h-full object-cover opacity-90"
-              />
-              <div className="absolute inset-0 bg-black/20" />
-            </div>
-          </motion.div>
+            Découvrir les produits
+          </Link>
+        </motion.div>
+
+        <div className="flex justify-center mt-10 space-x-4">
+          {images.map((_, idx) => (
+            <span
+              key={idx}
+              className={`w-4 h-4 rounded-full cursor-pointer ${
+                currentIndex === idx ? "bg-indigo-400" : "bg-indigo-200/60"
+              } shadow-lg`}
+              aria-label={`Image ${idx + 1}`}
+              onClick={() => setCurrentIndex(idx)}
+            />
+          ))}
         </div>
       </div>
     </div>
