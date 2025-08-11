@@ -1,4 +1,3 @@
-import React from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
